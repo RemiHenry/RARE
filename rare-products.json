@@ -1,0 +1,136 @@
+{
+  "products": [
+    {
+      "id": "rare-hoodie-001",
+      "name": "Essential Box Hoodie",
+      "brand": "ESSENTIALS",
+      "category": "Hoodies",
+      "price": 185.0,
+      "currency": "USD",
+      "description": "A heavyweight everyday hoodie designed with a clean streetwear silhouette, soft interior, and minimal RARE. branding.",
+      "shortDescription": "Heavyweight streetwear hoodie with a clean, oversized fit.",
+      "images": [
+        "images/products/hoodie-01.jpeg",
+        "images/products/hoodie-01-back.jpeg"
+      ],
+      "thumbnail": "images/products/hoodie-01.jpeg",
+      "colors": ["Black"],
+      "sizes": ["S", "M", "L", "XL"],
+      "sku": "RARE-HOODIE-001",
+      "material": "100% heavyweight cotton",
+      "fit": "Oversized",
+      "condition": "New",
+      "availability": "In Stock",
+      "stock": 8,
+      "tags": ["NEW", "Limited", "Hoodie", "Streetwear"],
+      "features": [
+        "Heavyweight cotton construction",
+        "Adjustable drawstring hood",
+        "Kangaroo front pocket",
+        "Ribbed cuffs and hem"
+      ],
+      "releaseInfo": "Limited RARE. release",
+      "isFeatured": true,
+      "isNew": true
+    },
+    {
+      "id": "rare-tshirt-001",
+      "name": "Archive Graphic T-Shirt",
+      "brand": "Supreme",
+      "category": "T-Shirts",
+      "price": 85.0,
+      "currency": "USD",
+      "description": "A relaxed graphic T-shirt inspired by the visual language of modern streetwear and limited-edition releases.",
+      "shortDescription": "Relaxed graphic tee made for everyday streetwear.",
+      "images": [
+        "images/products/tshirt-01.jpeg",
+        "images/products/tshirt-01-back.jpeg"
+      ],
+      "thumbnail": "images/products/tshirt-01.jpeg",
+      "colors": ["White"],
+      "sizes": ["S", "M", "L", "XL"],
+      "sku": "RARE-TSHIRT-001",
+      "material": "100% cotton",
+      "fit": "Relaxed",
+      "condition": "New",
+      "availability": "In Stock",
+      "stock": 14,
+      "tags": ["Limited", "NEW", "Graphic", "T-Shirt", "Streetwear"],
+      "features": [
+        "Premium cotton fabric",
+        "Front graphic",
+        "Relaxed silhouette",
+        "Reinforced neckline"
+      ],
+      "releaseInfo": "Limited RARE. release",
+      "isFeatured": true,
+      "isNew": true
+    },
+    {
+      "id": "rare-jacket-001",
+      "name": "Utility Track Jacket",
+      "brand": "BAPE",
+      "category": "Outerwear",
+      "price": 240.0,
+      "currency": "USD",
+      "description": "A lightweight utility jacket combining a technical feel with a simple streetwear silhouette for layering throughout the year.",
+      "shortDescription": "Technical-inspired jacket with a modern streetwear fit.",
+      "images": [
+        "images/products/jacket-01.jpeg",
+        "images/products/jacket-01-back.jpeg"
+      ],
+      "thumbnail": "images/products/jacket-01.jpeg",
+      "colors": ["Charcoal"],
+      "sizes": ["S", "M", "L", "XL"],
+      "sku": "RARE-JACKET-001",
+      "material": "100% nylon",
+      "fit": "Regular",
+      "condition": "New",
+      "availability": "Low Stock",
+      "stock": 4,
+      "tags": ["RARE", "Limited", "Outerwear", "Jacket", "Trending"],
+      "features": [
+        "Lightweight technical fabric",
+        "Full front zip",
+        "Multiple utility pockets",
+        "Adjustable hem"
+      ],
+      "releaseInfo": "Limited RARE. release",
+      "isFeatured": true,
+      "isNew": false
+    },
+    {
+      "id": "rare-beanie-001",
+      "name": "Signature Beanie",
+      "brand": "Stussy",
+      "category": "Accessories",
+      "price": 55.0,
+      "currency": "USD",
+      "description": "A classic rib-knit beanie finished with subtle RARE. branding, designed as an everyday streetwear accessory.",
+      "shortDescription": "Classic rib-knit beanie with subtle branding.",
+      "images": [
+        "images/products/beanie-01.jpeg",
+        "images/products/beanie-01-detail.jpeg"
+      ],
+      "thumbnail": "images/products/beanie-01.jpeg",
+      "colors": ["Black"],
+      "sizes": ["One Size"],
+      "sku": "RARE-BEANIE-001",
+      "material": "100% acrylic",
+      "fit": "One Size",
+      "condition": "New",
+      "availability": "In Stock",
+      "stock": 20,
+      "tags": ["Trending", "Beanie", "Accessory", "New"],
+      "features": [
+        "Rib-knit construction",
+        "Fold-over cuff",
+        "Embroidered RARE. logo",
+        "One-size design"
+      ],
+      "releaseInfo": "Limited RARE. release",
+      "isFeatured": false,
+      "isNew": true
+    }
+  ]
+}
