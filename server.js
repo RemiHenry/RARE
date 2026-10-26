@@ -1,38 +1,73 @@
+
 const express = require("express");
-const fs = require("fs");
-const path = require("path");
+const { MongoClient } = require("mongodb");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// Serve all static files from the 'public' folder
-app.use(express.static(path.join(__dirname, "public")));
+const MONGODB_URI = process.env.MONGODB_URI;
+const DATABASE_NAME = process.env.MONGODB_DATABASE || "rare";
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
+app.use(express.json());
+
+// Allow local development and deployed requests.
+// Vercel deployments use the same-origin API route.
+app.use((req, res, next) => {
+  const allowedOrigin = process.env.FRONTEND_ORIGIN;
+
+  if (allowedOrigin) {
+    res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+  } else if (
+    req.headers.origin === "http://localhost:8080" ||
+    req.headers.origin === "http://localhost:3000"
+  ) {
+    res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
+  }
+
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+
+  next();
 });
 
-// Route to serve the JSON file
-app.get("/api/products", (req, res) => {
-  const filePath = path.join(__dirname, "rare-products.json");
+let db;
+let mongoClient;
 
-  // Read the file asynchronously
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      return res.status(500).json({ error: "Failed to read data file" });
-    }
+app.get("/api/products", async (req, res) => {
+  try {
+    const products = await db
+      .collection("products")
+      .find({})
+      .toArray();
 
-    try {
-      // Parse the string into a valid JavaScript object
-      const jsonData = JSON.parse(data);
+    res.json({ products });
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({ error: "Failed to fetch products" });
+  }
+});
 
-      // Send the object back as a proper JSON response
-      res.json(jsonData);
-    } catch (parseError) {
-      console.error("Error parsing JSON:", parseError);
-      res.status(500).json({ error: "Invalid JSON format in file" });
-    }
+async function startServer() {
+  if (!MONGODB_URI) {
+    throw new Error("MONGODB_URI environment variable is missing");
+  }
+
+  mongoClient = new MongoClient(MONGODB_URI);
+  await mongoClient.connect();
+
+  db = mongoClient.db(DATABASE_NAME);
+  console.log("Connected to MongoDB Atlas");
+
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server is running on port ${PORT}`);
   });
+}
+
+startServer().catch((error) => {
+  console.error("Failed to start server:", error);
+  process.exit(1);
 });
