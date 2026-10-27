@@ -1,9 +1,13 @@
+
 const express = require("express");
 const { MongoClient } = require("mongodb");
 const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const MONGODB_URI = process.env.MONGODB_URI;
+const DATABASE_NAME = process.env.MONGODB_DATABASE || "rare";
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
@@ -41,12 +45,10 @@ app.get("/api/products", async (req, res) => {
   }
 });
 
-// Start a normal HTTP server for local Docker development only.
 if (require.main === module) {
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server is running on port ${PORT}`);
   });
 }
 
-// Export the Express app for Vercel.
 module.exports = app;
