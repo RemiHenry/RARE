@@ -1,15 +1,5 @@
-services:
-  web:
-    image: node:22-alpine
-    working_dir: /app
-    volumes:
-      - ./public:/app:ro
-    command: npx --yes http-server /app -p 8080 -a 0.0.0.0
-    ports:
-      - "8080:8080"
-    depends_on:
-      - api
 
+services:
   api:
     image: node:22-alpine
     working_dir: /app
@@ -22,21 +12,6 @@ services:
     environment:
       MONGODB_URI: ${MONGODB_URI}
       MONGODB_DATABASE: ${MONGODB_DATABASE:-rare}
-    depends_on:
-      mongo:
-        condition: service_healthy
-
-  mongo:
-    image: mongo:8
-    restart: unless-stopped
-    volumes:
-      - mongo_data:/data/db
-    healthcheck:
-      test:
-        ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
 
 volumes:
   mongo_data:
