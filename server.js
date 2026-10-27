@@ -1,13 +1,11 @@
-
 const express = require("express");
 const { MongoClient } = require("mongodb");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const MONGODB_URI = process.env.MONGODB_URI;
-const DATABASE_NAME = process.env.MONGODB_DATABASE || "rare";
-
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
 let db;
