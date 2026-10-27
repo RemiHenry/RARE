@@ -10,35 +10,27 @@ const DATABASE_NAME = process.env.MONGODB_DATABASE || "rare";
 
 app.use(express.json());
 
-// Allow local development and deployed requests.
-// Vercel deployments use the same-origin API route.
-app.use((req, res, next) => {
-  const allowedOrigin = process.env.FRONTEND_ORIGIN;
-
-  if (allowedOrigin) {
-    res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
-  } else if (
-    req.headers.origin === "http://localhost:8080" ||
-    req.headers.origin === "http://localhost:3000"
-  ) {
-    res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
-  }
-
-  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(204);
-  }
-
-  next();
-});
-
 let db;
-let mongoClient;
+
+const mongoClient = MONGODB_URI
+  ? new MongoClient(MONGODB_URI)
+  : null;
+
+const dbReady = mongoClient
+  ? mongoClient.connect().then((client) => {
+      db = client.db(DATABASE_NAME);
+      console.log("Connected to MongoDB Atlas");
+    })
+  : Promise.reject(new Error("MONGODB_URI is missing"));
+
+dbReady.catch((error) => {
+  console.error("MongoDB connection failed:", error.message);
+});
 
 app.get("/api/products", async (req, res) => {
   try {
+    await dbReady;
+
     const products = await db
       .collection("products")
       .find({})
@@ -46,28 +38,17 @@ app.get("/api/products", async (req, res) => {
 
     res.json({ products });
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("Error fetching products:", error.message);
     res.status(500).json({ error: "Failed to fetch products" });
   }
 });
 
-async function startServer() {
-  if (!MONGODB_URI) {
-    throw new Error("MONGODB_URI environment variable is missing");
-  }
-
-  mongoClient = new MongoClient(MONGODB_URI);
-  await mongoClient.connect();
-
-  db = mongoClient.db(DATABASE_NAME);
-  console.log("Connected to MongoDB Atlas");
-
+// Start a normal HTTP server for local Docker development only.
+if (require.main === module) {
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server is running on port ${PORT}`);
   });
 }
 
-startServer().catch((error) => {
-  console.error("Failed to start server:", error);
-  process.exit(1);
-});
+// Export the Express app for Vercel.
+module.exports = app;
