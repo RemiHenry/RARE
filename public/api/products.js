@@ -138,11 +138,11 @@ const showAllProducts = async () => {
       Display number of products.
     */
 
-    productCount.textContent = `${products.length} PRODUCTS`;
+    if (productCount) productCount.textContent = `${products.length} PRODUCTS`;
   } catch (error) {
     console.error(error);
 
-    productCount.textContent = "";
+    if (productCount) productCount.textContent = "";
 
     errorMessage.hidden = false;
   }
